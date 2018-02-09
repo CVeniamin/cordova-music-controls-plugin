@@ -9,6 +9,7 @@
 
 #import "MusicControls.h"
 #import "MusicControlsInfo.h"
+#import <AVFoundation/AVFoundation.h>
 
 //save the passed in info globally so we can configure the enabled/disabled commands and skip intervals
 MusicControlsInfo * musicControlsSettings;
@@ -238,7 +239,7 @@ MusicControlsInfo * musicControlsSettings;
 //skip forward/back will take precedence if both are enabled
 - (void) registerMusicControlsEventListener {
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    [self becomeFirstResponder];
+    //[self becomeFirstResponder];
     
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:0 error:nil];
     [[AVAudioSession sharedInstance] setActive:YES error:nil];
@@ -281,7 +282,7 @@ MusicControlsInfo * musicControlsSettings;
 
 - (void) deregisterMusicControlsEventListener {
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-    [self resignFirstResponder];
+    //[self resignFirstResponder];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"receivedEvent" object:nil];
     
     MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
