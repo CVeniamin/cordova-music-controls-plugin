@@ -238,6 +238,7 @@ MusicControlsInfo * musicControlsSettings;
 //skip forward/back will take precedence if both are enabled
 - (void) registerMusicControlsEventListener {
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self becomeFirstResponder];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMusicControlsNotification:) name:@"musicControlsEventNotification" object:nil];
     
     //register required event handlers for standard controls
@@ -276,6 +277,7 @@ MusicControlsInfo * musicControlsSettings;
 
 - (void) deregisterMusicControlsEventListener {
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    [self resignFirstResponder];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"receivedEvent" object:nil];
     
     MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
