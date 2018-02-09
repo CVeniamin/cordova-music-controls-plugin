@@ -17,4 +17,9 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"musicControlsEventNotification" object:receivedEvent];
 }
 
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
 @end
