@@ -239,6 +239,10 @@ MusicControlsInfo * musicControlsSettings;
 - (void) registerMusicControlsEventListener {
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     [self becomeFirstResponder];
+    
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:0 error:nil];
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMusicControlsNotification:) name:@"musicControlsEventNotification" object:nil];
     
     //register required event handlers for standard controls
