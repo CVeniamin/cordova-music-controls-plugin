@@ -185,21 +185,26 @@ public class MusicControlsNotification {
 
 		//Set SmallIcon
 		boolean usePlayingIcon = infos.notificationIcon.isEmpty();
+		int iconId = 0;
+		
+		// custom icon from /res/drawable
 		if(!usePlayingIcon){
-			int resId = this.getResourceId(infos.notificationIcon, 0);
-			usePlayingIcon = resId == 0;
-			if(!usePlayingIcon) {
-				builder.setSmallIcon(resId);
-			}
-		}
-
-		if(usePlayingIcon){
+			iconId = this.getResourceId(infos.notificationIcon, 0);
+		} else {
+			// notificationIcon not setted 
 			if (infos.isPlaying){
-				builder.setSmallIcon(this.getResourceId(infos.playIcon, android.R.drawable.ic_media_play));
+				iconId = this.getResourceId(infos.playIcon, android.R.drawable.ic_media_play);
 			} else {
-				builder.setSmallIcon(this.getResourceId(infos.pauseIcon, android.R.drawable.ic_media_pause));
+				iconId = this.getResourceId(infos.pauseIcon, android.R.drawable.ic_media_pause);
 			}
 		}
+		
+		// fallback to application icon in case user wants to use it or whenever overy other resource failed
+		if (infos.notificationIcon.equals("applicationIcon") || iconId == 0){
+			iconId = context.getApplicationInfo().icon;
+		}
+		
+		builder.setSmallIcon(iconId);
 
 		//Set LargeIcon
 		if (!infos.cover.isEmpty() && this.bitmapCover != null){
